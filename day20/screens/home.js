@@ -1,9 +1,70 @@
 import React from "react";
 import {View, Text, Stylesheet, Image, TouchableOpacity, FlatList, ScrollView, Button} from 'react-native'
-const home=()=>{
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import data from '../data/data.json'
+import Item from './Item'
+
+const Home=()=>{
+
+    return(
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={styles.sliderContainer}>
+                    <Swiper 
+                    autoplay 
+                    activeDotColor="#22D4FF"
+                    autoplayTimeout={5}>
+                          <View style={styles.item}>
+                            <Image source={{uri:"https://picsum.photos/seed/picsym/200/300"}}
+                            style={styles.image}
+                            resizeMode="cover"
+                            />
+                          </View>
+                          <View style={styles.item}>
+                            <Image source={{uri:"https://picsum.photos/seed/picsym/200/300"}}
+                            style={styles.image}
+                            resizeMode="cover"
+                            />
+                          </View>
+                    </Swiper>
+                </View>
+            </View>
+            <View style={styles.iconsContainer}>
+                <View>
+                    <MaterialCommunityIcons name="cellphone-iphone" size={30} color="#22D4FF"/>
+                    <Text>Iphone</Text>
+                </View>
+                <View>
+                    <MaterialCommunityIcons name="samsung" size={30} color="#22D4FF"/>
+                    <Text>Android</Text>
+                </View>
+                <View>
+                    <MaterialCommunityIcons name="laptop" size={30} color="#22D4FF"/>
+                    <Text>Laptop</Text>
+                </View>
+                <View style={styles.productsContainer}>
+                    <Text>Most Popular Products</Text>
+                    <FlatList
+                    data={data}
+                    renderItem={({item})=>{
+                        <View>
+                            <Item item={item}/>
+                        </View>
+
+                    }}
+                    />
+                </View>
+                <TouchableOpacity style={styles.btn}>
+                    <Text style={styles.btnText}>View More</Text>
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
+    )
+
 
 }
-export default home
+export default Home
 
 const styles=StyleSheet.create({
     container:{
