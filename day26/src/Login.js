@@ -1,14 +1,19 @@
 import React, {useState} from 'react'
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+
 
 const Login=()=>{
+    const navigation=useNavigation();
+        const [username, setUsername]=useState("")
+    const [password, setPassword]=useState("")
     const handleLogin = async () =>{ 
         try {
 
        
     const response = await fetch('https://dummyjson.com/auth/login', {
         method: 'POST', 
-        header: {'Consent-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json'},
         body:JSON.stringify({
             username:username,
             password:password
@@ -18,37 +23,38 @@ const Login=()=>{
 
     const data= await response.json();
     console.log(data);
-    if(data?.token){
+    if (data && data.refreshToken) {
         navigator.navigate('Welcome', {
             username:username
         });
     }else{
         alert(data.message || 'Login failed. Please check your credentials')
     }
-}catch(err) {
-  console.log('Login error:', err);
+}catch(error) {
+  console.log('Login error:', error);
   alert('An error has occurred ')
  }
  };
  return(
-    <View style={StyleSheet.container}>
-      <Text style={style.title}>Fake api Login</Text>
-      <TextInput
-      style={StyleSheet.input}
-      placeholder='Username'
-      autoCapitalize='none'
-      value={username}
-      onChangeText={test=>setUsername(test)}
-      /> 
-      <TextInput
-      style={StyleSheet.input}
-      placeholder='Password'
-      autoCapitalize='none'
-      value={password}
-      onChangeText={test=>setPassword(test)}
-      /> 
-      <Button title="Login" onPress={handle}/>
-    </View>
+    <View style={styles.container}>
+            <Text style={styles.title}>FAKE API Login</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Username"
+                autoCapitalize='none'
+                value={username}
+                onChangeText={test=>setUsername(test)}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                autoCapitalize='none'
+                secureTextEntry
+                value={password}
+                onChangeText={test=>setPassword(test)}
+            />
+            <Button title="Login" onPress={handleLogin} />
+        </View>
  )
 }
 
